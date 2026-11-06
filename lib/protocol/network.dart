@@ -2601,12 +2601,12 @@ class RequestData {
               json['mixedContentType'] as String,
             )
           : null,
-      initialPriority: ResourcePriority.fromJson(
-        json['initialPriority'] as String,
-      ),
-      referrerPolicy: RequestReferrerPolicy.fromJson(
-        json['referrerPolicy'] as String,
-      ),
+      initialPriority: json['initialPriority'] != null
+          ? ResourcePriority.fromJson(json['initialPriority'] as String)
+          : ResourcePriority.medium, // Or other suitable default value
+      referrerPolicy: json['referrerPolicy'] != null
+          ? RequestReferrerPolicy.fromJson(json['referrerPolicy'] as String)
+          : RequestReferrerPolicy.noReferrer, // Or other suitable default value
       isLinkPreload: json.containsKey('isLinkPreload')
           ? json['isLinkPreload'] as bool
           : null,
@@ -3291,13 +3291,13 @@ class ResponseData {
       status: json['status'] as int,
       statusText: json['statusText'] as String,
       headers: Headers.fromJson(json['headers'] as Map<String, dynamic>),
-      mimeType: json['mimeType'] as String,
-      charset: json['charset'] as String,
+      mimeType: json['mimeType'] as String? ?? 'text/plain',
+      charset: json['charset'] as String? ?? 'utf-8',
       requestHeaders: json.containsKey('requestHeaders')
           ? Headers.fromJson(json['requestHeaders'] as Map<String, dynamic>)
           : null,
       connectionReused: json['connectionReused'] as bool? ?? false,
-      connectionId: json['connectionId'] as num,
+      connectionId: json['connectionId'] as num? ?? 0,
       remoteIPAddress: json.containsKey('remoteIPAddress')
           ? json['remoteIPAddress'] as String
           : null,
@@ -3321,7 +3321,7 @@ class ResponseData {
               json['serviceWorkerRouterInfo'] as Map<String, dynamic>,
             )
           : null,
-      encodedDataLength: json['encodedDataLength'] as num,
+      encodedDataLength: json['encodedDataLength'] as num? ?? 0,
       timing: json.containsKey('timing')
           ? ResourceTiming.fromJson(json['timing'] as Map<String, dynamic>)
           : null,
